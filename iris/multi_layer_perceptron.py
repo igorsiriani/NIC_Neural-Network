@@ -24,22 +24,25 @@ def train_test_perceptron(epoch):
     # divide 15% para validação
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=0.1765)
 
+    print('X_train.shape: ', X_train.shape)
+    print('y_train.shape: ', y_train.shape)
+
     # plota os tamanhos de sepala e petala do conjunto de treinamento
-    # plt.subplot(2, 2, 1)
-    # plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm.viridis)
-    # plt.xlabel('sepal length (cm)')
-    # plt.ylabel('sepal width (cm)')
-    #
-    # plt.subplot(2, 2, 2)
-    # plt.scatter(X_train[:, 2], X_train[:, 3], c=y_train, cmap=cm.viridis)
-    # plt.xlabel('petal length (cm)')
-    # plt.ylabel('petal width (cm)')
+    plt.subplot(2, 2, 1)
+    plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap=cm.viridis)
+    plt.xlabel('sepal length (cm)')
+    plt.ylabel('sepal width (cm)')
+
+    plt.subplot(2, 2, 2)
+    plt.scatter(X_train[:, 2], X_train[:, 3], c=y_train, cmap=cm.viridis)
+    plt.xlabel('petal length (cm)')
+    plt.ylabel('petal width (cm)')
 
     # cria o modelo
     model = keras.Sequential()
     model.add(keras.layers.Dense(16, activation='relu', input_shape=(4,)))
     model.add(keras.layers.Dense(3, activation='softmax'))
-    model.summary()
+    print(model.summary())
 
     # compila o modelo
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
@@ -50,15 +53,14 @@ def train_test_perceptron(epoch):
               epochs=epoch,
               validation_data=(X_val, y_val))
 
-    # plota a evolução da accuracy por época
+    # # plota a evolução da accuracy por época
     # plt.subplot(2, 1, 2)
-    plt.plot(history.history['accuracy'])
-    # plt.plot(history.history['val_accuracy'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.legend(['train'], loc='upper left')
-    plt.show()
+    # plt.plot(history.history['accuracy'])
+    # plt.title('model accuracy')
+    # plt.ylabel('accuracy')
+    # plt.xlabel('epoch')
+    # plt.legend(['train'], loc='upper left')
+    # plt.show()
 
     # Evaluate the model on the test data
     _, accuracy = model.evaluate(X_test, y_test)
